@@ -7,6 +7,6 @@
 	[RatingId] INT NOT NULL,
 	[FormatId] INT NOT NULL,
 	[DirectorId] INT NOT NULL,
-	[InStkQty] INT NOT NULL,
+	[Quantity] INT NOT NULL,
 	[ImagePath] VARCHAR(255) NOT NULL
 )

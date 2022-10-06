@@ -1,5 +1,5 @@
 ﻿	BEGIN
-		INSERT INTO tblMovie (Id, Title, Description, Cost, RatingId, FormatId, DirectorId, InStkQty, ImagePath)
+		INSERT INTO tblMovie (Id, Title, Description, Cost, RatingId, FormatId, DirectorId, Quantity, ImagePath)
 		VALUES
 		(1, 'Pulp Fiction', 'The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.',
 		9.99, 1, 1, 1, 10, 'genericImagePath'),
