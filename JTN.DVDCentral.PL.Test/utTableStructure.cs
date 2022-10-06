@@ -225,6 +225,7 @@ namespace JTN.DVDCentral.PL.Test
             structure.ColumnInfos.Add(new ColumnInfo("Cost", DataTypes.Double));
             structure.ColumnInfos.Add(new ColumnInfo("RatingId", DataTypes.Int32));
             structure.ColumnInfos.Add(new ColumnInfo("DirectorId", DataTypes.Int32));
+            structure.ColumnInfos.Add(new ColumnInfo("FormatId", DataTypes.Int32));
             structure.ColumnInfos.Add(new ColumnInfo("Quantity", DataTypes.Int32));
             structure.ColumnInfos.Add(new ColumnInfo("ImagePath", DataTypes.String));
             structures.Add(structure);
