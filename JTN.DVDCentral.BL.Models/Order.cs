@@ -13,5 +13,6 @@ namespace JTN.DVDCentral.BL.Models
         public DateTime OrderDate { get; set; }
         public int UserId { get; set; }
         public DateTime ShipDate { get; set; }
+        public List<OrderItem> OrderItems { get; set; }
     }
 }
