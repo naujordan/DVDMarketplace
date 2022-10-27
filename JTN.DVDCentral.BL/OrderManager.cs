@@ -30,6 +30,9 @@ namespace JTN.DVDCentral.BL
                     row.ShipDate = order.ShipDate;
 
                     order.Id = row.Id;
+                    OrderItem orderItem = new OrderItem();
+                    orderItem.OrderId = order.Id;
+                    OrderItemManager.Insert(orderItem, orderItem.OrderId);
                     dvd.tblOrders.Add(row);
                     results = dvd.SaveChanges();
 
@@ -45,7 +48,7 @@ namespace JTN.DVDCentral.BL
             }
         }
 
-        public static List<Order> Load()
+        public static List<Order> Load(int? customerId = null)
         {
             try
             {
@@ -53,9 +56,18 @@ namespace JTN.DVDCentral.BL
 
                 using (DVDCentralEntities dvd = new DVDCentralEntities())
                 {
-                    dvd.tblOrders
-                        .ToList()
-                        .ForEach(s => rows.Add(new Order
+                    var orders = (from o in dvd.tblOrders
+                                  where o.CustomerId == customerId || customerId == null
+                                  select new
+                                  {
+                                      o.Id,
+                                      o.CustomerId,
+                                      o.OrderDate,
+                                      o.UserId,
+                                      o.ShipDate
+                                  }).ToList();
+                    
+                    orders.ForEach(s => rows.Add(new Order
                         {
                             Id = s.Id,
                             CustomerId = s.CustomerId,

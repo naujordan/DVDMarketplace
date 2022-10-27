@@ -16,3 +16,65 @@ html {
 body {
   margin-bottom: 60px;
 }
+.bg-dark {
+    background: linear-gradient(90deg, #2F8C8F 0%, #14365D 35%);
+}
+
+.header {
+    margin: 0px;
+    padding: 0px;
+    background-color: #B3DEE5;
+}
+
+    .header h1, .header h2, .header h3, .header h4, .header h5 {
+        margin: 0px;
+        padding: 0px 0px 0px 10px;
+        color: white;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    }
+.card-img {
+    height: 200px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.main {
+    margin: 0px;
+    padding: 0px;
+    border-width: 1px;
+    border-style: solid;
+}
+.sidebar {
+    border-width: 1px;
+    border-style: solid;
+    margin: 0px 10px 0px 10px;
+    min-height: 500px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+    .sidebar ul {
+        list-style-type: none;
+        padding-left: 5px;
+        padding-right: 0px;
+        font-size: 0px;
+    }
+
+    .sidebar a {
+        padding-left: 5px;
+        padding-right: 0px;
+        font-size: 14px;
+    }
+
+    .sidebar li {
+        font-size: 0px;
+    }
+
+.table tr:nth-child(odd) {
+    background-color: #B3DEE5;
+}
+
+.table tr:nth-child(even) {
+    background-color: #3b628f;
+}

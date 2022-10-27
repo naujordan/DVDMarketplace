@@ -12,6 +12,7 @@ namespace JTN.DVDCentral.BL.Test
     [TestClass()]
     public class OrderManagerTests
     {
+        //Tested this without the rollback and it inserted the orderId into the orderItem table
         [TestMethod()]
         public void InsertTest()
         {
@@ -23,12 +24,19 @@ namespace JTN.DVDCentral.BL.Test
                 ShipDate = new DateTime(1999, 1, 1)
             };
             Assert.AreEqual(1, OrderManager.Insert(order, true));
+            
         }
 
         [TestMethod()]
         public void LoadTest()
         {
             Assert.AreEqual(3, OrderManager.Load().Count);
+        }
+
+        [TestMethod()]
+        public void LoadByCustomerIdTest()
+        {
+            Assert.AreEqual(2, OrderManager.Load(1).Count);
         }
 
         [TestMethod()]

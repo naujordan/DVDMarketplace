@@ -51,7 +51,7 @@ namespace JTN.DVDCentral.BL
             }
         }
 
-        public static List<Movie> Load()
+        public static List<Movie> Load(int? genreId = null)
         {
             try
             {
@@ -59,20 +59,52 @@ namespace JTN.DVDCentral.BL
 
                 using (DVDCentralEntities dvd = new DVDCentralEntities())
                 {
-                    dvd.tblMovies
-                        .ToList()
-                        .ForEach(s => rows.Add(new Movie
-                        {
-                            Id = s.Id,
-                            Title = s.Title,
-                            Description = s.Description,
-                            Cost = s.Cost,
-                            RatingId = s.RatingId,
-                            FormatId = s.FormatId,
-                            DirectorId = s.DirectorId,
-                            Quantity = s.Quantity,
-                            ImagePath = s.ImagePath,
-                }));
+                    var movies = (from m in dvd.tblMovies
+                                  join r in dvd.tblRatings
+                                  on m.RatingId equals r.Id
+                                  join f in dvd.tblFormats
+                                  on m.FormatId equals f.Id
+                                  join d in dvd.tblDirectors
+                                  on m.DirectorId equals d.Id
+                                  join mg in dvd.tblMovieGenres
+                                  on m.Id equals mg.MovieId
+                                  join g in dvd.tblGenres
+                                  on mg.GenreId equals g.Id
+                                  where mg.GenreId == genreId || genreId == null
+                                  select new
+                                  {
+                                      m.Id,
+                                      m.Title,
+                                      m.Description,
+                                      m.Cost,
+                                      RatingId = r.Id,
+                                      RatingDesc = r.Description,
+                                      FormatId = f.Id,
+                                      FormatDesc = f.Description,
+                                      DirectorId = d.Id,
+                                      d.FirstName,
+                                      d.LastName,
+                                      m.Quantity,
+                                      m.ImagePath,
+
+                                  }).ToList();
+
+                    movies.ForEach(movie => rows.Add(new Movie
+                    {
+                        Id = movie.Id,
+                        Title = movie.Title,
+                        Description = movie.Description,
+                        Cost = movie.Cost,
+                        RatingId = movie.RatingId,  
+                        RatingDesc= movie.RatingDesc,
+                        FormatId = movie.FormatId,
+                        FormatDesc = movie.FormatDesc,
+                        Quantity = movie.Quantity,
+                        ImagePath = movie.ImagePath,
+                        DirectorId= movie.DirectorId,
+                        DirectorName = movie.FirstName + " " + movie.LastName
+
+                    }));
                     return rows;
                 }
 
@@ -118,6 +150,11 @@ namespace JTN.DVDCentral.BL
 
                 throw ex;
             }
+        }
+
+        public static List<Movie> LoadByGenreId(int genreId)
+        {
+            return MovieManager.Load(genreId);
         }
 
         public static int Update(Movie movie, bool rollback = false)

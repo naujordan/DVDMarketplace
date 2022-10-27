@@ -1,6 +1,7 @@
 ﻿using JTN.DVDCentral.BL.Models;
 using JTN.DVDCentral.PL;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.VisualStudio.Web.CodeGeneration.Design;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace JTN.DVDCentral.BL
     public static class OrderItemManager
     {
         private const string Message = "Row does not exist";
-        public static int Insert(OrderItem orderItem, bool rollback = false)
+        public static int Insert(OrderItem orderItem, int orderId, bool rollback = false)
         {
             try
             {
@@ -24,7 +25,7 @@ namespace JTN.DVDCentral.BL
 
                     tblOrderItem row = new tblOrderItem();
                     row.Id = dvd.tblOrderItems.Any() ? dvd.tblOrderItems.Max(s => s.Id) + 1 : 1;
-                    row.OrderId = orderItem.OrderId;
+                    row.OrderId = orderId;
                     row.MovieId = orderItem.MovieId;
                     row.Quantity = orderItem.Quantity;
                     row.Cost = orderItem.Cost;
@@ -105,6 +106,44 @@ namespace JTN.DVDCentral.BL
                 throw ex;
             }
         }
+
+        public static List<OrderItem> LoadByOrderId(int OrderId)
+        {
+            try
+            {
+                List<OrderItem> rows = new List<OrderItem>();
+                using (DVDCentralEntities dvd = new DVDCentralEntities())
+                {
+                    var orderItems = (from oi in dvd.tblOrderItems
+                                      where oi.OrderId == OrderId
+                                      select new
+                                      {
+                                          oi.Id,
+                                          oi.OrderId,
+                                          oi.MovieId,
+                                          oi.Cost,
+                                          oi.Quantity
+                                      }).ToList();
+
+                    orderItems.ForEach(item => rows.Add(new OrderItem
+                    {
+                      Id = item.Id,
+                      OrderId = item.OrderId,
+                      MovieId = item.MovieId,
+                      Cost = item.Cost,
+                      Quantity = item.Quantity
+                    }));
+                    
+                }
+                return rows;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
 
         public static int Update(OrderItem orderItem, bool rollback = false)
         {
