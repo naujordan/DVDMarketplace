@@ -17,14 +17,14 @@ namespace JTN.DVDCentral.BL.Test
         {
             OrderItem orderItem = new OrderItem
             {
+                OrderId = 99,
                 MovieId = 99,
                 Quantity = 5,
                 Cost = 15.99
             };
-            Assert.AreEqual(1, OrderItemManager.Insert(orderItem, 99, true));
+            Assert.AreEqual(1, OrderItemManager.Insert(orderItem, true));
         }
 
-        //THIS TEST WILL FAIL IF RAN MORE THAN ONCE. OrderManager.Insert() calls the OrderItemManager.Insert() and doesn't rollback
         [TestMethod()]
         public void LoadTest()
         {

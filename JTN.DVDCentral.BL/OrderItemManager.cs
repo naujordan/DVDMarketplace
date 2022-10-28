@@ -13,7 +13,7 @@ namespace JTN.DVDCentral.BL
     public static class OrderItemManager
     {
         private const string Message = "Row does not exist";
-        public static int Insert(OrderItem orderItem, int orderId, bool rollback = false)
+        public static int Insert(OrderItem orderItem, bool rollback = false)
         {
             try
             {
@@ -25,7 +25,7 @@ namespace JTN.DVDCentral.BL
 
                     tblOrderItem row = new tblOrderItem();
                     row.Id = dvd.tblOrderItems.Any() ? dvd.tblOrderItems.Max(s => s.Id) + 1 : 1;
-                    row.OrderId = orderId;
+                    row.OrderId = orderItem.OrderId;
                     row.MovieId = orderItem.MovieId;
                     row.Quantity = orderItem.Quantity;
                     row.Cost = orderItem.Cost;

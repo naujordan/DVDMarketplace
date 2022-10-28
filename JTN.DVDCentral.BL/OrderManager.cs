@@ -30,11 +30,22 @@ namespace JTN.DVDCentral.BL
                     row.ShipDate = order.ShipDate;
 
                     order.Id = row.Id;
-                    OrderItem orderItem = new OrderItem();
-                    orderItem.OrderId = order.Id;
-                    OrderItemManager.Insert(orderItem, orderItem.OrderId);
                     dvd.tblOrders.Add(row);
                     results = dvd.SaveChanges();
+
+                    foreach (OrderItem orderItem in order.OrderItems)
+                    {
+                        tblOrderItem newRow = new tblOrderItem();
+
+                        newRow.Id = dvd.tblOrderItems.Any() ? dvd.tblOrderItems.Max(s => s.Id) + 1 : 1;
+                        newRow.Cost = orderItem.Cost;
+                        newRow.MovieId = orderItem.MovieId;
+                        newRow.OrderId = order.Id;
+                        newRow.Quantity = orderItem.Quantity;
+
+                        dvd.tblOrderItems.Add(newRow);
+                        dvd.SaveChanges();
+                    }
 
                     if (rollback) dbContextTransaction.Rollback();
                 }
