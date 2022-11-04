@@ -179,11 +179,11 @@ namespace JTN.DVDCentral.PL
                     .HasMaxLength(10)
                     .IsUnicode(false);
 
-                entity.Property(e => e.UserName)
+                entity.Property(e => e.UserId)
                     .HasMaxLength(10)
                     .IsUnicode(false);
 
-                entity.Property(e => e.UserPass)
+                entity.Property(e => e.Password)
                     .HasMaxLength(15)
                     .IsUnicode(false);
             });

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,9 @@ namespace JTN.DVDCentral.BL.Models
     public class Customer
     {
         public int Id { get; set; }
+        [DisplayName("First Name")]
         public string FirstName { get; set; }
+        [DisplayName("Last Name")]
         public string LastName { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
@@ -17,5 +20,7 @@ namespace JTN.DVDCentral.BL.Models
         public string Zip { get; set; }
         public string Phone { get; set; }
         public int UserId { get; set; }
+        [DisplayName("Name")]
+        public string FullName { get { return FirstName + " " + LastName; } }
     }
 }

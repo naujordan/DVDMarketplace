@@ -107,7 +107,7 @@ namespace JTN.DVDCentral.BL
             }
         }
 
-        public static List<OrderItem> LoadByOrderId(int OrderId)
+        public static List<OrderItem> LoadByOrderId(int? OrderId = null)
         {
             try
             {

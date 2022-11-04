@@ -113,7 +113,8 @@ namespace JTN.DVDCentral.BL
                             CustomerId = row.CustomerId,
                             OrderDate = row.OrderDate,
                             UserId = row.UserId,
-                            ShipDate= row.ShipDate,
+                            ShipDate = row.ShipDate,
+                            OrderItems = OrderItemManager.LoadByOrderId(id)
                         };
                     }
                     else

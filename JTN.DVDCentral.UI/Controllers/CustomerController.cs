@@ -7,28 +7,28 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JTN.DVDCentral.UI.Controllers
 {
-    public class DirectorController : Controller
+    public class CustomerController : Controller
     {
-        // GET: DirectorController
+        // GET: CustomerController
         public ActionResult Index()
         {
-            ViewBag.Title = "Directors";
-            return View(DirectorManager.Load());
+            ViewBag.Title = "Customers";
+            return View(CustomerManager.Load());
         }
 
-        // GET: DirectorController/Details/5
+        // GET: CustomerController/Details/5
         public ActionResult Details(int id)
         {
-            ViewBag.Title = "Directors";
-            return View(DirectorManager.LoadById(id));
+            ViewBag.Title = "Customers";
+            return View(CustomerManager.LoadById(id));
         }
 
-        // GET: DirectorController/Create
+        // GET: CustomerController/Create
         public ActionResult Create()
-        {
+        {        
             if (Authenticate.isAuthenticated(HttpContext))
             {
-                ViewBag.Title = "Add a Director";
+                ViewBag.Title = "Add a Customer";
                 return View();
             }
             else
@@ -37,31 +37,31 @@ namespace JTN.DVDCentral.UI.Controllers
             }
         }
 
-        // POST: DirectorController/Create
+        // POST: CustomerController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Director director)
+        public ActionResult Create(Customer customer)
         {
             try
             {
-                DirectorManager.Insert(director);
+                CustomerManager.Insert(customer);
                 return RedirectToAction(nameof(Index));
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
-                ViewBag.Title = "Add a Director";
+                ViewBag.Title = "Add a Customer";
                 ViewBag.Error = ex.Message;
                 return View();
             }
         }
 
-        // GET: DirectorController/Edit/5
+        // GET: CustomerController/Edit/5
         public ActionResult Edit(int id)
-        {    
+        {
             if (Authenticate.isAuthenticated(HttpContext))
             {
-                ViewBag.Title = "Update a Director";
-                return View(DirectorManager.LoadById(id));
+                ViewBag.Title = "Update a Customer";
+                return View(CustomerManager.LoadById(id));
             }
             else
             {
@@ -69,44 +69,44 @@ namespace JTN.DVDCentral.UI.Controllers
             }
         }
 
-        // POST: DirectorController/Edit/5
+        // POST: CustomerController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Director director)
+        public ActionResult Edit(int id, Customer customer)
         {
             try
             {
-                DirectorManager.Update(director);
+                CustomerManager.Update(customer);
                 return RedirectToAction(nameof(Index));
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
-                ViewBag.Title = "Update a Director";
+                ViewBag.Title = "Update a Customer";
                 ViewBag.Error = ex.Message;
                 return View();
             }
         }
 
-        // GET: DirectorController/Delete/5
+        // GET: CustomerController/Delete/5
         public ActionResult Delete(int id)
         {
-            ViewBag.Title = "Delete a Director";
-            return View(DirectorManager.LoadById(id));
+            ViewBag.Title = "Delete a Customer";
+            return View(CustomerManager.LoadById(id));
         }
 
-        // POST: DirectorController/Delete/5
+        // POST: CustomerController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Customer customer)
         {
             try
             {
-                DirectorManager.Delete(id);
+                CustomerManager.Delete(id);
                 return RedirectToAction(nameof(Index));
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
-                ViewBag.Title = "Delete a Director";
+                ViewBag.Title = "Delete a Customer";
                 ViewBag.Error = ex.Message;
                 return View();
             }

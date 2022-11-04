@@ -1,6 +1,8 @@
 ﻿using JTN.DVDCentral.BL;
 using JTN.DVDCentral.BL.Models;
+using JTN.DVDCentral.UI.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JTN.DVDCentral.UI.Controllers
@@ -24,8 +26,15 @@ namespace JTN.DVDCentral.UI.Controllers
         // GET: GenreController/Create
         public ActionResult Create()
         {
-            ViewBag.Title = "Add a Genre";
-            return View();
+            if (Authenticate.isAuthenticated(HttpContext))
+            {
+                ViewBag.Title = "Add a Genre";
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "User", new { returnuri = UriHelper.GetDisplayUrl(HttpContext.Request) });
+            }
         }
 
         // POST: GenreController/Create
@@ -48,9 +57,16 @@ namespace JTN.DVDCentral.UI.Controllers
 
         // GET: GenreController/Edit/5
         public ActionResult Edit(int id)
-        {
-            ViewBag.Title = "Edit a Genre";
-            return View(GenreManager.LoadById(id));
+        {  
+            if (Authenticate.isAuthenticated(HttpContext))
+            {
+                ViewBag.Title = "Edit a Genre";
+                return View(GenreManager.LoadById(id));
+            }
+            else
+            {
+                return RedirectToAction("Login", "User", new { returnuri = UriHelper.GetDisplayUrl(HttpContext.Request) });
+            }
         }
 
         // POST: GenreController/Edit/5
