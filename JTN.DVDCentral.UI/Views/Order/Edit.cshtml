@@ -41,46 +41,12 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.OrderItems[0].OrderId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OrderItems[0].MovieId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OrderItems[0].Quantity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OrderItems[0].Cost)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.OrderItems) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MovieId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cost)
-            </td>
-            <td>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div>
+    <partial name="_OrderPartial" model="Model.OrderItems" />
+</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+

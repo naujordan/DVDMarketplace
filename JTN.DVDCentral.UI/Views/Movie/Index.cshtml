@@ -5,57 +5,34 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cost)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Quantity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RatingDesc)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FormatDesc)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DirectorName)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cost)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RatingDesc)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FormatDesc)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DirectorName)
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<p class="ps-2">
+    <a asp-action="Create">Create New</a>
+</p>
+<div class="row ps-2">
+    @foreach(var item in Model)
+    {
+        <div class="col-sm-4">
+            <div class="card mb-2">
+                <div class="card-header header">
+                    <h3>@Html.DisplayFor(modelItem => item.Title)</h3>
+                </div>
+                <div class="card-img">
+                        <img src="~/images/@item.ImagePath" class="card-img"/>
+                </div>
+                <div class="card-body ps-2"> 
+                    <h5>@Html.DisplayFor(modelItem => item.Description)</h5>
+                    <h5>@Html.DisplayFor(modelItem => item.DirectorName)</h5>
+                    <h5>@Html.DisplayFor(modelItem => item.RatingDesc)</h5>
+                    <h5>@Html.DisplayFor(modelItem => item.FormatDesc)</h5>
+                    <h5>@Html.DisplayFor(modelItem => item.Cost)</h5>
+                    <h5>@Html.DisplayFor(modelItem => item.Quantity)</h5>                  
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-sm btn-primary" asp-route-id="@item.Id" asp-action="Edit">Edit</a>
+                    <a class="btn btn-sm btn-primary" asp-route-id="@item.Id" asp-action="Details">Details</a>
+                    <a class="btn btn-sm btn-primary" asp-route-id="@item.Id" asp-action="Delete">Delete</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

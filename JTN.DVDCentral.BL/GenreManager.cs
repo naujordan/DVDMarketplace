@@ -42,6 +42,37 @@ namespace JTN.DVDCentral.BL
             }
         }
 
+        public static List<Genre> Load(int? movieId = null)
+        {
+            try
+            {
+                List<Genre> rows = new List<Genre>();
+
+                using (DVDCentralEntities dvd = new DVDCentralEntities())
+                {
+                    (from g in dvd.tblGenres
+                     join mg in dvd.tblMovieGenres
+                     on g.Id equals mg.GenreId
+                     where mg.MovieId == movieId || movieId == null
+                     select new
+                     {
+                         g.Id,
+                         g.Description
+                     }).Distinct().ToList().ForEach(g => rows.Add(new Genre
+                     {
+                         Id = g.Id,
+                         Description = g.Description
+                     }));
+                    return rows;
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         public static List<Genre> Load()
         {
             try
@@ -50,13 +81,16 @@ namespace JTN.DVDCentral.BL
 
                 using (DVDCentralEntities dvd = new DVDCentralEntities())
                 {
-                    dvd.tblGenres
-                        .ToList()
-                        .ForEach(s => rows.Add(new Genre
-                        {
-                            Id = s.Id,
-                            Description = s.Description,
-                        }));
+                    (from g in dvd.tblGenres
+                     select new
+                     {
+                         g.Id,
+                         g.Description
+                     }).Distinct().ToList().ForEach(g => rows.Add(new Genre
+                     {
+                         Id = g.Id,
+                         Description = g.Description
+                     }));
                     return rows;
                 }
 

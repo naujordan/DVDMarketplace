@@ -59,6 +59,14 @@ namespace JTN.DVDCentral.UI.Controllers
         private void SetUser(User user)
         {
             HttpContext.Session.SetObject("user", user);
+            if (user != null)
+            {
+                HttpContext.Session.SetObject("fullname", "Welcome " + user.FullName);
+            }
+            else
+            {
+                HttpContext.Session.SetObject("fullname", string.Empty);
+            }
         }
 
         // GET: UserController/Create

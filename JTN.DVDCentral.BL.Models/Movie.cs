@@ -23,6 +23,14 @@ namespace JTN.DVDCentral.BL.Models
         [DisplayName("Director")]
         public string DirectorName { get; set; }
         public int Quantity { get; set; }
+        [DisplayName("Image")]
         public string ImagePath { get; set; }
+
+        public List<Genre> Genres { get; set; }
+
+        public Movie()
+        {
+            Genres = new List<Genre>();
+        }
     }
 }

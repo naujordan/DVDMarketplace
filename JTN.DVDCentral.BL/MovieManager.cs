@@ -1,6 +1,7 @@
 ﻿using JTN.DVDCentral.BL.Models;
 using JTN.DVDCentral.PL;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.VisualStudio.Web.CodeGeneration.Design;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -116,14 +117,43 @@ namespace JTN.DVDCentral.BL
             }
         }
 
+
         public static Movie LoadById(int id)
         {
             try
             {
+
                 using (DVDCentralEntities dvd = new DVDCentralEntities())
                 {
-                    tblMovie row = dvd.tblMovies.FirstOrDefault(s => s.Id == id);
+                    var row = (from m in dvd.tblMovies
+                                  join r in dvd.tblRatings
+                                  on m.RatingId equals r.Id
+                                  join f in dvd.tblFormats
+                                  on m.FormatId equals f.Id
+                                  join d in dvd.tblDirectors
+                                  on m.DirectorId equals d.Id
+                                  join mg in dvd.tblMovieGenres
+                                  on m.Id equals mg.MovieId
+                                  join g in dvd.tblGenres
+                                  on mg.GenreId equals g.Id
+                                  where m.Id == id
+                                  select new
+                                  {
+                                      m.Id,
+                                      m.Title,
+                                      m.Description,
+                                      m.Cost,
+                                      RatingId = r.Id,
+                                      RatingDesc = r.Description,
+                                      FormatId = f.Id,
+                                      FormatDesc = f.Description,
+                                      DirectorId = d.Id,
+                                      d.FirstName,
+                                      d.LastName,
+                                      m.Quantity,
+                                      m.ImagePath,
 
+                                  }).FirstOrDefault();
                     if (row != null)
                     {
                         return new Movie
@@ -133,16 +163,21 @@ namespace JTN.DVDCentral.BL
                             Description = row.Description,
                             Cost = row.Cost,
                             RatingId = row.RatingId,
+                            RatingDesc = row.RatingDesc,
                             FormatId = row.FormatId,
-                            DirectorId = row.DirectorId,
+                            FormatDesc = row.FormatDesc,
                             Quantity = row.Quantity,
                             ImagePath = row.ImagePath,
+                            DirectorId = row.DirectorId,
+                            DirectorName = row.FirstName + " " + row.LastName,
+                            Genres = GenreManager.Load(id)
                         };
                     }
                     else
                     {
                         throw new Exception(Message);
                     }
+
                 }
             }
             catch (Exception ex)

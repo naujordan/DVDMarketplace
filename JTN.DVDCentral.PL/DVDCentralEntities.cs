@@ -172,19 +172,19 @@ namespace JTN.DVDCentral.PL
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.FirstName)
-                    .HasMaxLength(10)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.LastName)
-                    .HasMaxLength(10)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.UserId)
-                    .HasMaxLength(10)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Password)
-                    .HasMaxLength(15)
+                    .HasMaxLength(28)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UserId)
+                    .HasMaxLength(25)
                     .IsUnicode(false);
             });
 
