@@ -164,23 +164,29 @@ namespace JTN.DVDCentral.BL
         }
         public static void Seed()
         {
-            User user = new User
+            using (DVDCentralEntities dvd = new DVDCentralEntities())
             {
-                UserId = "jnau",
-                FirstName = "Jordan",
-                LastName = "Nau",
-                Password = "password"
-            };
-            Insert(user);
+                if (dvd.tblUsers.Count() <= 3)
+                {
+                    User user = new User
+                    {
+                        UserId = "jnau",
+                        FirstName = "Jordan",
+                        LastName = "Nau",
+                        Password = "password"
+                    };
+                    Insert(user);
 
-            user = new User
-            {
-                UserId = "bfoote",
-                FirstName = "Brian",
-                LastName = "Foote",
-                Password = "maple"
-            };
-            Insert(user);
+                    user = new User
+                    {
+                        UserId = "bfoote",
+                        FirstName = "Brian",
+                        LastName = "Foote",
+                        Password = "maple"
+                    };
+                    Insert(user);
+                }
+            }
         }
 
         public static User LoadById(int id)

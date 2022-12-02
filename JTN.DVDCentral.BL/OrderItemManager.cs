@@ -81,7 +81,20 @@ namespace JTN.DVDCentral.BL
             {
                 using (DVDCentralEntities dvd = new DVDCentralEntities())
                 {
-                    tblOrderItem row = dvd.tblOrderItems.FirstOrDefault(s => s.Id == id);
+                    var row = (from oi in dvd.tblOrderItems
+                                      join m in dvd.tblMovies on oi.MovieId equals m.Id
+                                      where oi.Id == id
+                                      select new
+                                      {
+                                          oi.Id,
+                                          oi.OrderId,
+                                          oi.MovieId,
+                                          oi.Cost,
+                                          oi.Quantity,
+                                          m.Title,
+                                          m.ImagePath,
+                                          m.Description
+                                      }).FirstOrDefault();
 
                     if (row != null)
                     {
@@ -90,14 +103,18 @@ namespace JTN.DVDCentral.BL
                             Id = row.Id,
                             OrderId = row.OrderId,
                             MovieId = row.MovieId,
-                            Quantity = row.Quantity,
                             Cost = row.Cost,
+                            Quantity = row.Quantity,
+                            MovieTitle = row.Title,
+                            ImagePath = row.ImagePath,
+                            Description = row.Description
                         };
                     }
                     else
                     {
                         throw new Exception(Message);
                     }
+
                 }
             }
             catch (Exception ex)
@@ -115,6 +132,7 @@ namespace JTN.DVDCentral.BL
                 using (DVDCentralEntities dvd = new DVDCentralEntities())
                 {
                     var orderItems = (from oi in dvd.tblOrderItems
+                                      join m in dvd.tblMovies on oi.MovieId equals m.Id
                                       where oi.OrderId == OrderId
                                       select new
                                       {
@@ -122,8 +140,12 @@ namespace JTN.DVDCentral.BL
                                           oi.OrderId,
                                           oi.MovieId,
                                           oi.Cost,
-                                          oi.Quantity
-                                      }).ToList();
+                                          oi.Quantity,
+                                          m.Title,
+                                          m.ImagePath,
+                                          m.Description
+
+                                      }).Distinct().ToList();
 
                     orderItems.ForEach(item => rows.Add(new OrderItem
                     {
@@ -131,7 +153,11 @@ namespace JTN.DVDCentral.BL
                       OrderId = item.OrderId,
                       MovieId = item.MovieId,
                       Cost = item.Cost,
-                      Quantity = item.Quantity
+                      Quantity = item.Quantity,
+                      MovieTitle = item.Title,
+                      ImagePath = item.ImagePath,
+                      Description = item.Description
+
                     }));
                     
                 }

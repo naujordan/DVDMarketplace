@@ -3,11 +3,9 @@
 <table id="orders" class="table data-table">
     <thead>
         <tr>
+            <th></th>
             <th>
-                @Html.DisplayNameFor(model => model.OrderId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MovieId)
+                @Html.DisplayNameFor(model => model.MovieTitle)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Quantity)
@@ -22,10 +20,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.OrderId)
+                <img src="~/images/@item.ImagePath"
+                id="orderImage"
+                class="imageprop"
+                alt="@item.Description"/>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.MovieId)
+                @Html.DisplayFor(modelItem => item.MovieTitle)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Quantity)
@@ -34,6 +35,7 @@
                 @Html.DisplayFor(modelItem => item.Cost)
             </td>
             <td>
+                <a class="btn btn-sm btn-primary" asp-controller="OrderItem" asp-route-id="@item.Id" asp-action="Delete">Delete</a>
             </td>
         </tr>
 }

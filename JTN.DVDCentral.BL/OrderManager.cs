@@ -25,9 +25,14 @@ namespace JTN.DVDCentral.BL
                     tblOrder row = new tblOrder();
                     row.Id = dvd.tblOrders.Any() ? dvd.tblOrders.Max(s => s.Id) + 1 : 1;
                     row.CustomerId = order.CustomerId;
-                    row.OrderDate = order.OrderDate;
+                    row.OrderDate = DateTime.Now;
                     row.UserId = order.UserId;
-                    row.ShipDate = order.ShipDate;
+                    row.ShipDate = row.OrderDate.AddDays(3);
+                    row.SubTotal = order.SubTotal;
+                    row.Tax = order.SubTotal;
+                    row.Total = order.Total;
+
+                    
 
                     order.Id = row.Id;
                     dvd.tblOrders.Add(row);
@@ -68,6 +73,8 @@ namespace JTN.DVDCentral.BL
                 using (DVDCentralEntities dvd = new DVDCentralEntities())
                 {
                     var orders = (from o in dvd.tblOrders
+                                  join c in dvd.tblCustomers on o.CustomerId equals c.Id
+                                  join u in dvd.tblUsers on o.UserId equals u.Id
                                   where o.CustomerId == customerId || customerId == null
                                   select new
                                   {
@@ -75,7 +82,13 @@ namespace JTN.DVDCentral.BL
                                       o.CustomerId,
                                       o.OrderDate,
                                       o.UserId,
-                                      o.ShipDate
+                                      o.ShipDate, 
+                                      c.FirstName,
+                                      c.LastName,
+                                      UserName = u.UserId,
+                                      o.SubTotal,
+                                      o.Tax,
+                                      o.Total
                                   }).ToList();
                     
                     orders.ForEach(s => rows.Add(new Order
@@ -85,6 +98,11 @@ namespace JTN.DVDCentral.BL
                             OrderDate = s.OrderDate,
                             UserId = s.UserId,
                             ShipDate = s.ShipDate,
+                            CustomerName = s.LastName + ", " + s.FirstName,
+                            UserName = s.UserName,
+                            SubTotal = s.SubTotal,
+                            Tax = s.Tax,
+                            Total = s.Total
                         }));
                     return rows;
                 }
@@ -103,7 +121,25 @@ namespace JTN.DVDCentral.BL
             {
                 using (DVDCentralEntities dvd = new DVDCentralEntities())
                 {
-                    tblOrder row = dvd.tblOrders.FirstOrDefault(s => s.Id == id);
+                    var row = (from o in dvd.tblOrders
+                                  join c in dvd.tblCustomers on o.CustomerId equals c.Id
+                                  join u in dvd.tblUsers on o.UserId equals u.Id
+                                  where o.Id == id
+                                  select new
+                                  {
+                                      o.Id,
+                                      o.CustomerId,
+                                      o.OrderDate,
+                                      o.UserId,
+                                      o.ShipDate,
+                                      c.FirstName,
+                                      c.LastName,
+                                      UserName = u.UserId,
+                                      o.SubTotal,
+                                      o.Tax,
+                                      o.Total
+                                  }).FirstOrDefault();
+
 
                     if (row != null)
                     {
@@ -114,13 +150,18 @@ namespace JTN.DVDCentral.BL
                             OrderDate = row.OrderDate,
                             UserId = row.UserId,
                             ShipDate = row.ShipDate,
+                            CustomerName = row.LastName + ", " + row.FirstName,
+                            UserName = row.UserName,
+                            SubTotal = row.SubTotal,
+                            Tax = row.Tax,
+                            Total = row.Total,
                             OrderItems = OrderItemManager.LoadByOrderId(id)
                         };
                     }
                     else
                     {
                         throw new Exception(Message);
-                    }
+                    }               
                 }
             }
             catch (Exception ex)

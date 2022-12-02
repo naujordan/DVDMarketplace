@@ -88,7 +88,8 @@ namespace JTN.DVDCentral.BL
                                       m.Quantity,
                                       m.ImagePath,
 
-                                  }).ToList();
+                                  }).Distinct()
+                                  .ToList();
 
                     movies.ForEach(movie => rows.Add(new Movie
                     {
