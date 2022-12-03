@@ -4,8 +4,5 @@
 	[CustomerId] INT NOT NULL,
 	[OrderDate] DATETIME NOT NULL,
 	[UserId] INT NOT NULL,
-	[ShipDate] DATETIME NOT NULL,
-	[SubTotal] FLOAT NOT NULL,
-	[Tax] FLOAT NOT NULL,
-	[Total] FLOAT NOT NULL
+	[ShipDate] DATETIME NOT NULL
 )

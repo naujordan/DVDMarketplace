@@ -24,11 +24,20 @@ namespace JTN.DVDCentral.BL.Models
         public DateTime ShipDate { get; set; }
         public List<OrderItem> OrderItems { get; set; }
         [DisplayFormat(DataFormatString = "{0:c}")]
-        public double SubTotal { get; set; }
+        public double SubTotal { get
+        {
+                double tempTotal = 0;
+                foreach (var item in OrderItems)
+                {
+                    
+                    tempTotal += item.Cost; 
+                }
+                return tempTotal; 
+            } }
         [DisplayFormat(DataFormatString = "{0:c}")]
-        public double Tax { get; set; }
+        public double Tax { get { return SubTotal * .055; } }
         [DisplayFormat(DataFormatString = "{0:c}")]
-        public double Total { get; set; }
+        public double Total { get { return SubTotal + Tax; } }
 
         public Order()
         {

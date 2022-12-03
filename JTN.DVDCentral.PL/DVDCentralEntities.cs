@@ -145,9 +145,6 @@ namespace JTN.DVDCentral.PL
                 entity.Property(e => e.OrderDate).HasColumnType("datetime");
 
                 entity.Property(e => e.ShipDate).HasColumnType("datetime");
-                entity.Property(e => e.SubTotal).HasColumnType("float");
-                entity.Property(e => e.Tax).HasColumnType("float");
-                entity.Property(e => e.Total).HasColumnType("float");
             });
 
             modelBuilder.Entity<tblOrderItem>(entity =>

@@ -49,21 +49,18 @@ namespace JTN.DVDCentral.UI.Controllers
         {
             cart = GetShoppingCart();
             Order order = new Order();
-            OrderItem orderItem = new OrderItem();
-            foreach (var item in cart.Items)
+            foreach (Movie movie in cart.Items)
             {
-                orderItem.MovieId = item.Id;
+                OrderItem orderItem = new OrderItem();
+                orderItem.MovieId = movie.Id;
                 orderItem.Quantity = 1;
-                orderItem.Cost = item.Cost;
-                orderItem.ImagePath = item.ImagePath;
-                orderItem.Description = item.Description;
-                orderItem.MovieTitle = item.Title;
-                order.OrderItems.Add(orderItem);
+                orderItem.Cost = movie.Cost;
+                orderItem.ImagePath = movie.ImagePath;
+                orderItem.Description = movie.Description;
+                orderItem.MovieTitle = movie.Title;
                 order.CustomerId = 1;
                 order.UserId = 1;
-                order.SubTotal = cart.SubTotal;
-                order.Tax = cart.Tax;
-                order.Total = cart.Total;
+                order.OrderItems.Add(orderItem);
             }
             OrderManager.Insert(order);
             HttpContext.Session.SetObject("cart", null);

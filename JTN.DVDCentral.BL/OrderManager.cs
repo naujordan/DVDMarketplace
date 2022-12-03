@@ -28,29 +28,17 @@ namespace JTN.DVDCentral.BL
                     row.OrderDate = DateTime.Now;
                     row.UserId = order.UserId;
                     row.ShipDate = row.OrderDate.AddDays(3);
-                    row.SubTotal = order.SubTotal;
-                    row.Tax = order.SubTotal;
-                    row.Total = order.Total;
-
                     
+                    foreach (OrderItem orderItem in order.OrderItems)
+                    {
+
+                        orderItem.OrderId = row.Id;
+                        OrderItemManager.Insert(orderItem, rollback);
+                    }
 
                     order.Id = row.Id;
                     dvd.tblOrders.Add(row);
                     results = dvd.SaveChanges();
-
-                    foreach (OrderItem orderItem in order.OrderItems)
-                    {
-                        tblOrderItem newRow = new tblOrderItem();
-
-                        newRow.Id = dvd.tblOrderItems.Any() ? dvd.tblOrderItems.Max(s => s.Id) + 1 : 1;
-                        newRow.Cost = orderItem.Cost;
-                        newRow.MovieId = orderItem.MovieId;
-                        newRow.OrderId = order.Id;
-                        newRow.Quantity = orderItem.Quantity;
-
-                        dvd.tblOrderItems.Add(newRow);
-                        dvd.SaveChanges();
-                    }
 
                     if (rollback) dbContextTransaction.Rollback();
                 }
@@ -85,10 +73,7 @@ namespace JTN.DVDCentral.BL
                                       o.ShipDate, 
                                       c.FirstName,
                                       c.LastName,
-                                      UserName = u.UserId,
-                                      o.SubTotal,
-                                      o.Tax,
-                                      o.Total
+                                      UserName = u.UserId
                                   }).ToList();
                     
                     orders.ForEach(s => rows.Add(new Order
@@ -100,9 +85,7 @@ namespace JTN.DVDCentral.BL
                             ShipDate = s.ShipDate,
                             CustomerName = s.LastName + ", " + s.FirstName,
                             UserName = s.UserName,
-                            SubTotal = s.SubTotal,
-                            Tax = s.Tax,
-                            Total = s.Total
+                            OrderItems = OrderItemManager.LoadByOrderId(s.Id)
                         }));
                     return rows;
                 }
@@ -134,10 +117,7 @@ namespace JTN.DVDCentral.BL
                                       o.ShipDate,
                                       c.FirstName,
                                       c.LastName,
-                                      UserName = u.UserId,
-                                      o.SubTotal,
-                                      o.Tax,
-                                      o.Total
+                                      UserName = u.UserId
                                   }).FirstOrDefault();
 
 
@@ -152,9 +132,6 @@ namespace JTN.DVDCentral.BL
                             ShipDate = row.ShipDate,
                             CustomerName = row.LastName + ", " + row.FirstName,
                             UserName = row.UserName,
-                            SubTotal = row.SubTotal,
-                            Tax = row.Tax,
-                            Total = row.Total,
                             OrderItems = OrderItemManager.LoadByOrderId(id)
                         };
                     }

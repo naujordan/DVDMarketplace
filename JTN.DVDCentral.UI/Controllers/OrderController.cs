@@ -102,6 +102,7 @@ namespace JTN.DVDCentral.UI.Controllers
             try
             {
                 OrderManager.Delete(id);
+                OrderItemManager.Delete(id);
                 return RedirectToAction(nameof(Index));
             }
             catch(Exception ex)

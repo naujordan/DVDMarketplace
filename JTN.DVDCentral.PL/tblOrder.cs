@@ -10,8 +10,5 @@ namespace JTN.DVDCentral.PL
         public DateTime OrderDate { get; set; }
         public int UserId { get; set; }
         public DateTime ShipDate { get; set; }
-        public double SubTotal { get; set; }
-        public double Tax { get; set; }
-        public double Total { get; set; }
     }
 }

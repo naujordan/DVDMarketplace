@@ -144,7 +144,6 @@ namespace JTN.DVDCentral.BL
                                           m.Title,
                                           m.ImagePath,
                                           m.Description
-
                                       }).Distinct().ToList();
 
                     orderItems.ForEach(item => rows.Add(new OrderItem
@@ -218,7 +217,7 @@ namespace JTN.DVDCentral.BL
                     IDbContextTransaction dbContextTransaction = null;
                     if (rollback) dbContextTransaction = dvd.Database.BeginTransaction();
 
-                    tblOrderItem row = dvd.tblOrderItems.Where(s => s.Id == id).FirstOrDefault();
+                    tblOrderItem row = dvd.tblOrderItems.Where(s => s.OrderId == id).FirstOrDefault();
                     if (row != null)
                     {
                         dvd.tblOrderItems.Remove(row);
