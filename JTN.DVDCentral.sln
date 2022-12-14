@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JTN.DVDCentral.BL.Test", "J
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JTN.DVDCentral.UI", "JTN.DVDCentral.UI\JTN.DVDCentral.UI.csproj", "{6AEBEEA7-C0B1-4C81-A154-89571C1F78F4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JTN.DVDCentral.API", "JTN.DVDCentral.API\JTN.DVDCentral.API.csproj", "{3F02375D-6E73-40C9-A815-3DDB6F745E48}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{6AEBEEA7-C0B1-4C81-A154-89571C1F78F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AEBEEA7-C0B1-4C81-A154-89571C1F78F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AEBEEA7-C0B1-4C81-A154-89571C1F78F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F02375D-6E73-40C9-A815-3DDB6F745E48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F02375D-6E73-40C9-A815-3DDB6F745E48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F02375D-6E73-40C9-A815-3DDB6F745E48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F02375D-6E73-40C9-A815-3DDB6F745E48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -45,7 +45,7 @@ namespace JTN.DVDCentral.UI.Controllers
                 if (TempData["returnuri"] != null)
                     return Redirect(TempData["returnuri"]?.ToString());
                 else
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("AssignToCustomer", "ShoppingCart");
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -62,10 +62,13 @@ namespace JTN.DVDCentral.UI.Controllers
             if (user != null)
             {
                 HttpContext.Session.SetObject("fullname", "Welcome " + user.FullName);
+                HttpContext.Session.SetObject("userId", user.Id);
+                HttpContext.Session.SetObject("loggedOut", "no");
             }
             else
             {
                 HttpContext.Session.SetObject("fullname", string.Empty);
+                HttpContext.Session.SetObject("loggedOut", "yes");
             }
         }
 

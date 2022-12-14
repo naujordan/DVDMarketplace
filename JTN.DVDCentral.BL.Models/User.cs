@@ -25,5 +25,6 @@ namespace JTN.DVDCentral.BL.Models
                 return FirstName + " " + LastName;
             }
         }
+
     }
 }

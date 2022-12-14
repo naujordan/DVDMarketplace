@@ -2,6 +2,8 @@
 using JTN.DVDCentral.BL.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace JTN.DVDCentral.UI.Controllers
 {
@@ -95,5 +97,134 @@ namespace JTN.DVDCentral.UI.Controllers
                 return View();
             }
         }
+
+        #region "Web API"
+
+        private static HttpClient InitializeClient()
+        {
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("https://localhost:7152/api/");
+            return client;
+        }
+
+        public ActionResult Get()
+        {
+            ViewBag.Title = "Ratings";
+            HttpClient client = InitializeClient();
+
+            HttpResponseMessage response = client.GetAsync("Rating").Result;
+            string result = response.Content.ReadAsStringAsync().Result;
+            dynamic items = (JArray)JsonConvert.DeserializeObject(result);
+            List<Rating> ratings = items.ToObject<List<Rating>>();
+
+            return View(nameof(Index), ratings);
+
+        }
+
+        public ActionResult GetOne(int id)
+        {
+            ViewBag.Title = "Ratings";
+            HttpClient client = InitializeClient();
+            HttpResponseMessage response = client.GetAsync("Rating/" + id).Result;
+
+            string result = response.Content.ReadAsStringAsync().Result;
+            dynamic item = JsonConvert.DeserializeObject(result);
+            Rating rating = item.ToObject<Rating>();
+            return View(nameof(Details), rating);
+        }
+
+        public ActionResult Insert()
+        {
+            ViewBag.Title = "Ratings";
+            return View(nameof(Create));
+        }
+
+        [HttpPost]
+        public ActionResult Insert(Rating rating)
+        {
+            try
+            {
+                ViewBag.Title = "Ratings";
+                HttpClient client = InitializeClient();
+
+                string serializedObject = JsonConvert.SerializeObject(rating);
+                var content = new StringContent(serializedObject);
+                content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+                HttpResponseMessage response = client.PostAsync("Rating", content).Result;
+                return RedirectToAction("Get");
+
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                return View(nameof(Create), rating);
+            }
+        }
+
+
+        public ActionResult Update(int id)
+        {
+            ViewBag.Title = "Ratings";
+            HttpClient client = InitializeClient();
+
+            HttpResponseMessage response = client.GetAsync("Rating/" + id).Result;
+            string result = response.Content.ReadAsStringAsync().Result;
+            dynamic item = JsonConvert.DeserializeObject(result);
+            Rating rating = item.ToObject<Rating>();
+
+            return View(nameof(Edit), rating);
+        }
+
+        [HttpPost]
+        public ActionResult Update(int id, Rating rating)
+        {
+            try
+            {
+                HttpClient client = InitializeClient();
+
+                string serializedObject = JsonConvert.SerializeObject(rating);
+                var content = new StringContent(serializedObject);
+                content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+                HttpResponseMessage response = client.PutAsync("Rating/" + id, content).Result;
+                return RedirectToAction("Get");
+
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                return View(nameof(Edit), rating);
+            }
+        }
+
+        public ActionResult Remove(int id)
+        {
+            ViewBag.Title = "Ratings";
+            HttpClient client = InitializeClient();
+            HttpResponseMessage response = client.GetAsync("Rating/" + id).Result;
+            string result = response.Content.ReadAsStringAsync().Result;
+            dynamic item = JsonConvert.DeserializeObject(result);
+            Rating rating = item.ToObject<Rating>();
+            return View(nameof(Delete), rating);
+        }
+
+        [HttpPost]
+        public ActionResult Remove(int id, Rating rating)
+        {
+            try
+            {
+                HttpClient client = InitializeClient();
+                HttpResponseMessage response = client.DeleteAsync("Rating/" + id).Result;
+                return RedirectToAction("Get");
+
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                return View(nameof(Delete), rating);
+            }
+        }
+
+
+        #endregion
     }
 }

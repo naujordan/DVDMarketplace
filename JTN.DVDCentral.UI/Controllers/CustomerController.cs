@@ -44,8 +44,10 @@ namespace JTN.DVDCentral.UI.Controllers
         {
             try
             {
+                customer.UserId = HttpContext.Session.GetObject<int>("userId");
                 CustomerManager.Insert(customer);
-                return RedirectToAction(nameof(Index));
+                HttpContext.Session.SetObject("customerId", customer.Id);
+                return RedirectToAction("AssignToCustomer", "ShoppingCart");
             }
             catch(Exception ex)
             {

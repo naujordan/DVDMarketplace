@@ -119,6 +119,48 @@ namespace JTN.DVDCentral.BL
             }
         }
 
+        public static List<Customer> LoadByUserId(int id)
+        {
+            try
+            {
+                List<Customer> rows = new List<Customer>();
+                using (DVDCentralEntities dvd = new DVDCentralEntities())
+                {
+                    (from c in dvd.tblCustomers
+                     where c.UserId == id
+                     select new
+                     {
+                         c.Id,
+                         c.FirstName,
+                         c.LastName,
+                         c.Address,
+                         c.City,
+                         c.State,
+                         c.Zip,
+                         c.Phone,
+                         c.UserId
+                     }).Distinct().ToList().ForEach(c => rows.Add(new Customer
+                     {
+                         Id = c.Id,
+                         FirstName = c.FirstName,
+                         LastName = c.LastName,
+                         Address = c.Address,
+                         City = c.City,
+                         State = c.State,
+                         Zip = c.Zip,
+                         Phone = c.Phone,
+                         UserId = c.UserId
+                     }));
+                    return rows;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
         public static int Update(Customer customer, bool rollback = false)
         {
             try
@@ -193,5 +235,7 @@ namespace JTN.DVDCentral.BL
                 throw ex;
             }
         }
+
+      
     }
-}
+    }
